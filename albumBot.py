@@ -7,7 +7,7 @@ from selenium import webdriver
 def downloadHTML(url):
     """downloads an html page and returns a BeautifulSoup object"""
     
-    res = requests.get(url)
+    res = requests.get(url, headers = {'User-agent': 'your bot 0.1'})
     res.raise_for_status()
 
     return bs4.BeautifulSoup(res.text, "html.parser")
@@ -49,9 +49,16 @@ def create2DList(soup):
 
     twoDimList = []
 
+    for div in soup.find_all(attrs={"data-type": "comment"}):
+        print(div)
+        print("\n\n\n")
+
+
+
     # search for imgur links, reddit permalinks, and reddit usernames
 
     # this will print every reddit user found in the page, INCLUDING the moderators of the subreddit
+    """
     for item in soup.find_all(href=re.compile("https://www.reddit.com/user/")):
         print(item)
 
@@ -59,6 +66,7 @@ def create2DList(soup):
     for item in soup.find_all(href=re.compile("imgur.com/")):
         print(item)
 
+    """
     #TODO: does not work - trying to print every continue this thread link
 
     """
@@ -75,10 +83,14 @@ def create2DList(soup):
         print(item.contents[0].get("href"))
 
     """
+
+    """
     
     #new test ( 1/5/2018) of "parent class"
     for item in soup.find_all('div', attrs={"data-type" : "comment"}):
         print(item.attrs)
+    """
+
 
 
 
