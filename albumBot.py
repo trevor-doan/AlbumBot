@@ -50,7 +50,9 @@ def create2DList(soup):
     twoDimList = []
 
     for div in soup.find_all(attrs={"data-type": "comment"}):
-        print(div)
+        commentData = {'username': None, 'link': None, 'text': None, 'permalink': None}
+        commentData['username'] = div.get("data-author")
+        print(div.contents[2].contents[1].contents[1].contents[0].contents[0].contents[0])
         print("\n\n\n")
 
 
