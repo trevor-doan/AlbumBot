@@ -1,7 +1,7 @@
 #! python3
 # albumBot.py - Generates photo albums of top comments in Reddit threads
 
-import requests, os, bs4, re
+import requests, os, bs4, re, lxml
 from selenium import webdriver
 
 def downloadHTML(url):
@@ -10,7 +10,7 @@ def downloadHTML(url):
     res = requests.get(url, headers = {'User-agent': 'your bot 0.1'})
     res.raise_for_status()
 
-    return bs4.BeautifulSoup(res.text, "html.parser")
+    return bs4.BeautifulSoup(res.text, "lxml")
 
 def createThreadList(soup, threadList):
     """makes a sorted list of reddit threads with 100 comments or more"""
@@ -51,8 +51,8 @@ def create2DList(soup):
 
     for div in soup.find_all(attrs={"data-type": "comment"}):
         commentData = {'username': None, 'link': None, 'text': None, 'permalink': None}
-        commentData['username'] = div.get("data-author")
-        print(div.contents[2].contents[1].contents[1].contents[0].contents[0].contents[0])
+        print(div.get("data-author"))
+        print(div.contents[2].contents[1].contents[1].contents[0])
         print("\n\n\n")
 
 
