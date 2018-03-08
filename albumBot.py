@@ -51,9 +51,15 @@ def create2DList(soup):
 
     for div in soup.find_all(attrs={"data-type": "comment"}):
         commentData = {'username': None, 'link': None, 'text': None, 'permalink': None}
+        commentData['username'] = div.get("data-author")
+        comment = div.contents[2].contents[1].contents[1].contents[0]
+        
         print(div.get("data-author"))
-        print(div.contents[2].contents[1].contents[1].contents[0])
-        print("\n\n\n")
+        print(comment.a['href'])
+        print(comment.a.contents)
+        print("\n\n")
+        
+        
 
 
 
