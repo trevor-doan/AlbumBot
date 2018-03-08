@@ -54,9 +54,9 @@ def create2DList(soup):
         commentData['username'] = div.get("data-author")
         comment = div.contents[2].contents[1].contents[1].contents[0]
         
-        print(div.get("data-author"))
-        print(comment.a['href'])
-        print(comment.a.contents)
+        print("Username:" + div.get("data-author"))
+        print("Link: " + comment.a['href'])
+        print("Text: " + str(comment.a.contents[0].encode("utf-8")))
         print("\n\n")
         
         
