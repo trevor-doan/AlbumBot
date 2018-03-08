@@ -54,9 +54,14 @@ def create2DList(soup):
         commentData['username'] = div.get("data-author")
         comment = div.contents[2].contents[1].contents[1].contents[0]
         
-        print("Username:" + div.get("data-author"))
+        print("Username: " + div.get("data-author"))
         print("Link: " + comment.a['href'])
         print("Text: " + str(comment.a.contents[0].encode("utf-8")))
+
+        temp = div.find(attrs={"class": "deepthread"})
+        if(temp != None):
+            print("Thread Permalink: " + "https://reddit.com" + temp.a.get("data-href-url"))
+        
         print("\n\n")
         
         
