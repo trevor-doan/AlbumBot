@@ -19,7 +19,6 @@ def createThreadList(soup, threadList):
     for attribute in soup.find_all("a"):
         line = attribute.get_text()
 
-        # TODO: Also check for HTML bits with XXXX comments.
         lineRegex = re.compile(r"\d\d\d comments")
         comm = lineRegex.search(line)
 
@@ -54,7 +53,11 @@ def create2DList(soup):
         commentData['username'] = div.get("data-author")
         comment = div.contents[2].contents[1].contents[1].contents[0]
         
-        print("Username: " + div.get("data-author"))
+        usr = div.get("data-author")
+        if usr == None:
+            usr = "Deleted"
+
+        print("Username: " + usr)
         print("Link: " + comment.a['href'])
         print("Text: " + str(comment.a.contents[0].encode("utf-8")))
 
@@ -63,48 +66,6 @@ def create2DList(soup):
             print("Thread Permalink: " + "https://reddit.com" + temp.a.get("data-href-url"))
         
         print("\n\n")
-        
-        
-
-
-
-    # search for imgur links, reddit permalinks, and reddit usernames
-
-    # this will print every reddit user found in the page, INCLUDING the moderators of the subreddit
-    """
-    for item in soup.find_all(href=re.compile("https://www.reddit.com/user/")):
-        print(item)
-
-    # this will print every imgur link found in page INCLUDING "display 500 comments..." and "report" in the sidebar
-    for item in soup.find_all(href=re.compile("imgur.com/")):
-        print(item)
-
-    """
-    #TODO: does not work - trying to print every continue this thread link
-
-    """
-    for item in soup.find_all('deepthread', attrs={"data-inbound-url"}):
-        print(item.attrs)
-    """
-
-    """
-    
-    for item in soup.find_all('span', attrs={"class" : "deepthread"}):
-        print(item.contents[0])
-
-    for item in soup.find_all('span', attrs={"class" : "deepthread"}):
-        print(item.contents[0].get("href"))
-
-    """
-
-    """
-    
-    #new test ( 1/5/2018) of "parent class"
-    for item in soup.find_all('div', attrs={"data-type" : "comment"}):
-        print(item.attrs)
-    """
-
-
 
 
 def saveImage():
@@ -123,18 +84,18 @@ def printList(list):
 def main():
 
     threadList = []
-    url = "http://reddit.com/r/photoshopbattles/top"
+    url = "https://www.reddit.com/r/photoshopbattles/top/?sort=top&t=week"
 
     soup = downloadHTML(url)
     createThreadList(soup, threadList)
 
-    #debug print statment
-    print("NOW PRINTING LIST OF LINKS")
+    # debug print statment
     printList(threadList)
 
     # new
-    soup = downloadHTML(threadList[0])
-    create2DList(soup)
+    for i in range(0, len(threadList)):
+        soup = downloadHTML(threadList[i])
+        create2DList(soup)
 
 
 
